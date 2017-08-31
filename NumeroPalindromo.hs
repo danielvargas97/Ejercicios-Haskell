@@ -1,6 +1,10 @@
 {-
 	Modelos de Progr. 2
+
+
 	Gr. 020-82
+
+	Numero palindromo
 -}
 
 contarDiv :: Integer->Integer
