@@ -16,6 +16,11 @@ contarCarta' x y = contarCarta' (drop 1 x) (y+(valorCarta (x!!0) y))
 contarCarta :: [(String,String)]->Int
 contarCarta x = contarCarta' x 0
 
+
+extraerAs :: [(String,String)]->[(String,String)]
+extraerAs [] = []
+extraerAs (x:xs) = if x == ("Diamante","A") ||  then [x] else extraerAs xs
+
 valorCarta :: (String,String)->Int->Int
 valorCarta (_,"A") suma = if suma>10 then 1 else 11
 valorCarta (_,"J") suma = 10
