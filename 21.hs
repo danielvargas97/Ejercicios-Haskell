@@ -1,37 +1,44 @@
 
---21 en Haskell 
+--21 en Haskell
+
+-- Genera el mazo inicial del 21 
 mazo :: [(String,String)]
 mazo = [(x,y) | x<- ["Diamante","Pica","Trebol","Corazon"], y <- ["A","2","3","4","5","6","7","8","9","10","J","Q","K"]  ]
 
-cortar :: Int->[(String,String)]
-cortar y = if y>=0 && y<length [x | x<-mazo, x/= mazo!!y] then [x | x<-mazo, x/= mazo!!y] else []
-
+-- Ingresa una carta a la mano
 pedirCarta :: [(String,String)]->[(String,String)]->[(String,String)]
 pedirCarta x y = x++[y!!0]
 
+--Realiza la sumatoria del valor de las cartas
 contarCarta' :: [(String,String)]->Int-> Int
 contarCarta' [] y = y
-contarCarta' x y = contarCarta' (drop 1 x) (y+(valorCarta (x!!0) y))
+contarCarta' (x:xs) y = contarCarta' (xs) (y+(valorCarta (x)))
 
+-- Inicia la sumatoria de las cartas
 contarCarta :: [(String,String)]->Int
 contarCarta x = contarCarta' x 0
 
+--Funcion para decrementar el valor de cada as (si los hay) de 11 a 1 en caso que la suma de la mano sea mayor a 21
+descontarAs :: [(String,String)]->Int->Int
+descontarAs [] y = y
+descontarAs (x:xs) y = if snd x == "A" && y>21 then descontarAs xs (y-10) else  descontarAs xs y
 
-extraerAs :: [(String,String)]->[(String,String)]
-extraerAs [] = []
-extraerAs (x:xs) = if x == ("Diamante","A") ||  then [x] else extraerAs xs
+-- Funcion para calcular el valor de la mano adecuado
+valorMano :: [(String,String)]->Int
+valorMano x = descontarAs x (contarCarta x)
 
-valorCarta :: (String,String)->Int->Int
-valorCarta (_,"A") suma = if suma>10 then 1 else 11
-valorCarta (_,"J") suma = 10
-valorCarta (_,"Q") suma = 10
-valorCarta (_,"K") suma = 10
-valorCarta (_,"2") suma = 2
-valorCarta (_,"3") suma = 3
-valorCarta (_,"4") suma = 4
-valorCarta (_,"5") suma = 5
-valorCarta (_,"6") suma = 6
-valorCarta (_,"7") suma = 7
-valorCarta (_,"8") suma = 8
-valorCarta (_,"9") suma = 9
-valorCarta (_,"10") suma = 10
+-- Toma la carta y devuelve su valor numerico
+valorCarta :: (String,String)->Int
+valorCarta (_,"A") = 11
+valorCarta (_,"J") = 10
+valorCarta (_,"Q") = 10
+valorCarta (_,"K") = 10
+valorCarta (_,"2") = 2
+valorCarta (_,"3") = 3
+valorCarta (_,"4") = 4
+valorCarta (_,"5") = 5
+valorCarta (_,"6") = 6
+valorCarta (_,"7") = 7
+valorCarta (_,"8") = 8
+valorCarta (_,"9") = 9
+valorCarta (_,"10")= 10
