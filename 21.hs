@@ -10,13 +10,9 @@ pedirCarta :: [(String,String)]->[(String,String)]->[(String,String)]
 pedirCarta x y = x++[y!!0]
 
 --Realiza la sumatoria del valor de las cartas
-contarCarta' :: [(String,String)]->Int-> Int
-contarCarta' [] y = y
-contarCarta' (x:xs) y = contarCarta' (xs) (y+(valorCarta (x)))
-
--- Inicia la sumatoria de las cartas
-contarCarta :: [(String,String)]->Int
-contarCarta x = contarCarta' x 0
+contarCarta :: [(String,String)]-> Int
+contarCarta [] = 0
+contarCarta (x:xs) = contarCarta (xs) +valorCarta (x)
 
 --Funcion para decrementar el valor de cada as (si los hay) de 11 a 1 en caso que la suma de la mano sea mayor a 21
 descontarAs :: [(String,String)]->Int->Int
